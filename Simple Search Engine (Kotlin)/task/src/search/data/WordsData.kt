@@ -2,8 +2,8 @@ package search.data
 
 import search.data.model.Word
 
-class WordsData(private val input: String) {
+class WordsData(line: String) {
 
-    val words: List<Word> = input.split(" ").map { Word(it) }
+    val words: List<Word> = line.split(" ").map { Word(it) }
 
 }
