@@ -2,6 +2,6 @@ package search.engine
 
 interface SearchEngine {
 
-    fun find():String
+    fun find():List<String>
 
 }
