@@ -1,8 +1,7 @@
 package search
 
 import search.data.Person
-import search.engine.PeopleSearchEngine
-import search.engine.SearchEngine
+import search.engine.SearchEngineFactory
 
 class ConsoleManager(private val persons: List<Person>) {
 
@@ -15,32 +14,32 @@ class ConsoleManager(private val persons: List<Person>) {
                         "2. Print all people\n" +
                         "0. Exit"
             )
-            when (readln()) {
-                "1" -> {
-                    println("Enter a name or email to search all suitable people.")
-                    printAnswer(PeopleSearchEngine(persons, readln()))
-                }
 
-                "2" -> {
-                    println("=== List of people ===")
-                    printAllPeople(persons)
-                }
+            val menuInput = readln().toInt()
+            if (menuInput == 0) {
+                println("Bye!")
+                return
+            } else runSearch(menuInput)
+        }
+    }
 
-                "0" -> {
-                    println("Bye!")
-                    return
-                }
+    private fun runSearch(menuInput: Int) {
+        println("Select a matching strategy: ALL, ANY, NONE")
+        val searchType = readln()
+        when (menuInput) {
+            1 -> {
+                println("Enter a name or email to search all suitable people.")
+                printAnswer(SearchEngineFactory().create(searchType, persons).find(readln()))
+            }
+
+            2 -> {
+                println("=== List of people ===")
+                persons.forEach { println(it) }
             }
         }
     }
 
-    private fun printAllPeople(persons: List<Person>) {
-        persons.forEach { println(it) }
-    }
-
-    private fun printAnswer(searchEngine: SearchEngine) {
-        val results = searchEngine.find()
-
+    private fun printAnswer(results: List<String>) {
         if (results.isNotEmpty()) {
             println("People found:")
             results.forEach { println(it) }

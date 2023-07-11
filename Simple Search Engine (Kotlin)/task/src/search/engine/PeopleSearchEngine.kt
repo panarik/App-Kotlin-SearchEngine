@@ -2,12 +2,12 @@ package search.engine
 
 import search.data.Person
 
-class PeopleSearchEngine(private val persons: List<Person>, private val searchInput: String) : SearchEngine {
+class PeopleSearchEngine(private val persons: List<Person>) : SearchEngine {
 
-    override fun find(): List<String> =
-        findPersons().map { it.toString() }
+    override fun find(searchInput: String): List<String> =
+        findPersons(searchInput).map { it.toString() }
 
-    private fun findPersons(): List<Person> =
+    private fun findPersons(searchInput: String): List<Person> =
         persons.filter { it.contains(searchInput) }
 
 }
